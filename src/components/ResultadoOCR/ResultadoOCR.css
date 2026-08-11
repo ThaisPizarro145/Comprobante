@@ -1,0 +1,111 @@
+.resultado-ocr {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.resultado-ocr--cargando {
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.5rem 0;
+  color: var(--color-texto-tenue);
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--color-borde);
+  border-top-color: var(--color-primario);
+  border-radius: 50%;
+  animation: girar 0.8s linear infinite;
+}
+
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.resultado-ocr--error {
+  background: var(--color-error-fondo);
+  color: var(--color-error-texto);
+  border: 1px solid var(--color-error-texto);
+  border-radius: 10px;
+  padding: 0.9rem 1rem;
+  font-size: 0.95rem;
+}
+
+.resultado-ocr__aviso {
+  background: var(--color-aviso-fondo);
+  color: var(--color-aviso-texto);
+  border: 1px solid var(--color-aviso-texto);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.resultado-ocr__tipo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.75rem;
+  border-radius: 10px;
+  background: var(--color-exito-fondo);
+}
+
+.resultado-ocr__tipo--desconocido {
+  background: var(--color-aviso-fondo);
+}
+
+.resultado-ocr__tipo-etiqueta {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-texto-tenue);
+}
+
+.resultado-ocr__tipo-valor {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.resultado-ocr__datos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem 1rem;
+  margin: 0;
+}
+
+.resultado-ocr__dato dt {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-texto-tenue);
+  margin-bottom: 0.15rem;
+}
+
+.resultado-ocr__dato dd {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.resultado-ocr__no-detectado {
+  color: var(--color-texto-tenue);
+  font-weight: 400;
+  font-style: italic;
+}
+
+.resultado-ocr__texto-crudo {
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: var(--color-fondo-alterno);
+  border: 1px solid var(--color-borde);
+  border-radius: 10px;
+  padding: 0.75rem;
+  font-size: 0.8rem;
+  max-height: 220px;
+  overflow-y: auto;
+}

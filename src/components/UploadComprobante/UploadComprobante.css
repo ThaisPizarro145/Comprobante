@@ -1,0 +1,13 @@
+.upload-comprobante {
+  display: flex;
+  justify-content: center;
+}
+
+.upload-comprobante__input {
+  display: none;
+}
+
+.upload-comprobante__boton {
+  width: 100%;
+  max-width: 320px;
+}

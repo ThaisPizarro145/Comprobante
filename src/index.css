@@ -1,0 +1,101 @@
+:root {
+  --color-fondo: #f2f4f7;
+  --color-fondo-alterno: #f7f8fa;
+  --color-superficie: #ffffff;
+  --color-borde: #e2e5ea;
+  --color-texto: #1a1d23;
+  --color-texto-tenue: #6b7280;
+  --color-primario: #1d4ed8;
+  --color-primario-hover: #1e40af;
+  --color-secundario: #111827;
+  --color-secundario-hover: #1f2937;
+  --color-exito-fondo: #e8f7ee;
+  --color-aviso-fondo: #fff6e0;
+  --color-aviso-texto: #92650a;
+  --color-error-fondo: #fdecec;
+  --color-error-texto: #b3261e;
+
+  color-scheme: light;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--color-fondo);
+  color: var(--color-texto);
+}
+
+h1,
+h2,
+p,
+dl,
+dd {
+  margin: 0;
+}
+
+.btn {
+  appearance: none;
+  border: none;
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, opacity 0.15s ease;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn--primario {
+  background: var(--color-primario);
+  color: #fff;
+}
+
+.btn--primario:not(:disabled):hover {
+  background: var(--color-primario-hover);
+}
+
+.btn--secundario {
+  background: var(--color-secundario);
+  color: #fff;
+}
+
+.btn--secundario:not(:disabled):hover {
+  background: var(--color-secundario-hover);
+}
+
+.btn--texto {
+  background: transparent;
+  color: var(--color-primario);
+  padding: 0.4rem 0.2rem;
+  text-decoration: underline;
+}
+
+/*
+ * Impresión térmica: se oculta todo el contenido de la aplicación y se
+ * muestra únicamente el ticket (#ticket-impresion), sin márgenes, botones
+ * ni elementos de navegación. El ancho se ajusta desde @page para papel
+ * de 58mm u 80mm (ver comentario abajo).
+ */
+@media print {
+  @page {
+    /* Cambiar a "58mm auto" si la impresora térmica usa rollo de 58mm. */
+    size: 80mm auto;
+    margin: 0;
+  }
+
+  body {
+    background: #fff;
+  }
+
+  .no-imprimir {
+    display: none !important;
+  }
+}

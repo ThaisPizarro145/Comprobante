@@ -1,0 +1,43 @@
+.pagina-inicio {
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem 1rem 3rem;
+}
+
+.tarjeta {
+  width: 100%;
+  max-width: 480px;
+  background: var(--color-superficie);
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.pagina-inicio__encabezado {
+  text-align: center;
+}
+
+.pagina-inicio__encabezado h1 {
+  font-size: 1.3rem;
+  letter-spacing: 0.03em;
+  margin: 0;
+}
+
+.pagina-inicio__carga {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.pagina-inicio__acciones {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.pagina-inicio__resultado:empty {
+  display: none;
+}

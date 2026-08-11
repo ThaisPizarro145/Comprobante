@@ -1,0 +1,35 @@
+.ticket {
+  display: none;
+}
+
+@media print {
+  .ticket {
+    display: block;
+    width: 100%;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #000;
+  }
+
+  .ticket__titulo {
+    text-align: center;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .ticket__separador {
+    margin: 2px 0;
+    text-align: center;
+  }
+
+  .ticket__tipo {
+    text-align: center;
+    font-weight: 700;
+    margin: 6px 0;
+  }
+
+  .ticket__linea {
+    margin: 3px 0;
+  }
+}
