@@ -4,7 +4,7 @@ import './UploadComprobante.css';
 /**
  * Zona de carga de imagen del comprobante. Acepta selección desde archivo
  * (funciona igual en PC, laptop, tablet y celular; en celular el navegador
- * además ofrece la opción de usar la cámara gracias a `capture`).
+ * muestra su selector nativo, que incluye tanto la galería como la cámara).
  */
 export default function UploadComprobante({ onImagenSeleccionada, disabled }) {
   const inputRef = useRef(null);
@@ -24,7 +24,6 @@ export default function UploadComprobante({ onImagenSeleccionada, disabled }) {
         ref={inputRef}
         type="file"
         accept="image/*"
-        capture="environment"
         onChange={manejarCambio}
         disabled={disabled}
         className="upload-comprobante__input"
