@@ -1,4 +1,5 @@
-import { createWorker } from 'tesseract.js';
+import { createWorker, PSM } from 'tesseract.js';
+import { preprocesarImagen } from '../utils/preprocesarImagen';
 
 /**
  * Servicio de OCR 100% del lado del cliente (navegador), usando Tesseract.js.
@@ -8,6 +9,10 @@ import { createWorker } from 'tesseract.js';
  * se envía a ningún servidor. La única descarga externa es la de los
  * archivos estáticos del motor (wasm + datos de idioma "spa"), que el
  * navegador cachea después del primer uso.
+ *
+ * Antes de reconocer, la imagen pasa por preprocesarImagen() (escalado +
+ * escala de grises + binarización), lo que mejora sustancialmente la
+ * precisión sobre fotos/capturas con poco contraste o baja resolución.
  *
  * Se crea y termina un worker por cada análisis (en vez de mantenerlo vivo)
  * para garantizar que no quede memoria/estado de un comprobante anterior
@@ -27,9 +32,16 @@ export async function reconocerTexto(imagen, onProgress) {
   });
 
   try {
+    await worker.setParameters({
+      tessedit_pageseg_mode: PSM.SINGLE_COLUMN,
+      preserve_interword_spaces: '1',
+    });
+
+    const imagenProcesada = await preprocesarImagen(imagen);
+
     const {
       data: { text },
-    } = await worker.recognize(imagen);
+    } = await worker.recognize(imagenProcesada);
     return text ?? '';
   } finally {
     await worker.terminate();
