@@ -33,7 +33,11 @@ export async function reconocerTexto(imagen, onProgress) {
 
   try {
     await worker.setParameters({
-      tessedit_pageseg_mode: PSM.SINGLE_COLUMN,
+      // AUTO (segmentación automática de página): a diferencia de
+      // SINGLE_COLUMN, detecta y conserva todos los bloques de texto del
+      // comprobante (encabezado, cuerpo en dos columnas, pie con código),
+      // en vez de descartar los que no encajan en una sola columna.
+      tessedit_pageseg_mode: PSM.AUTO,
       preserve_interword_spaces: '1',
     });
 

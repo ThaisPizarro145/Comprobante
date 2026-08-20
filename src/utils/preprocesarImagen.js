@@ -21,7 +21,15 @@ export async function preprocesarImagen(archivo) {
   const bitmap = await createImageBitmap(archivo);
 
   const ANCHO_MINIMO = 1800;
-  const escala = bitmap.width < ANCHO_MINIMO ? ANCHO_MINIMO / bitmap.width : 1;
+  // Fotos de cámara suelen venir en 3000-4000px+ de ancho: reconocerlas a
+  // tamaño completo no mejora la precisión (ya se superó el mínimo para una
+  // buena altura de línea) y sí hace mucho más lento tanto el preprocesado
+  // como el reconocimiento. Se limita el ancho máximo para acelerar sin
+  // perder calidad.
+  const ANCHO_MAXIMO = 2200;
+  let escala = 1;
+  if (bitmap.width < ANCHO_MINIMO) escala = ANCHO_MINIMO / bitmap.width;
+  else if (bitmap.width > ANCHO_MAXIMO) escala = ANCHO_MAXIMO / bitmap.width;
   const ancho = Math.round(bitmap.width * escala);
   const alto = Math.round(bitmap.height * escala);
 
@@ -57,9 +65,7 @@ export async function preprocesarImagen(archivo) {
   // mayor parte de la imagen) y ese lado pasa a blanco; el otro (el texto,
   // minoritario) pasa a negro.
   let pixelesClaros = 0;
-  for (let p = 0; p < totalPixeles; p++) {
-    if (grises[p] > umbral) pixelesClaros++;
-  }
+  for (let nivel = umbral + 1; nivel < 256; nivel++) pixelesClaros += histograma[nivel];
   const fondoEsClaro = pixelesClaros >= totalPixeles / 2;
 
   for (let p = 0; p < totalPixeles; p++) {
