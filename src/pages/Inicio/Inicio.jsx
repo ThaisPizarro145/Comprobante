@@ -13,6 +13,9 @@ const LARGO_MINIMO_TEXTO_VALIDO = 15;
 const MENSAJE_CALIDAD_BAJA =
   'No se pudo leer correctamente el comprobante. Intenta cargar una imagen más clara.';
 
+const MENSAJE_ERROR_MOTOR =
+  'No se pudo iniciar el motor de OCR. Verifica tu conexión e intenta nuevamente.';
+
 export default function Inicio() {
   const [imagenFile, setImagenFile] = useState(null);
   const [imagenUrl, setImagenUrl] = useState(null);
@@ -71,8 +74,13 @@ export default function Inicio() {
       const datos = extraerDatos(textoOCR, tipo);
 
       setResultado({ tipo, datos, textoOCR });
-    } catch {
-      setError(MENSAJE_CALIDAD_BAJA);
+    } catch (err) {
+      // Se distingue un fallo real del motor OCR (red, carga de worker/wasm)
+      // de "no se detectó texto", para no mostrarle al usuario un mensaje
+      // de "imagen borrosa" cuando el problema es, por ejemplo, que no se
+      // pudieron cargar los archivos del motor.
+      console.error('Error al analizar el comprobante:', err);
+      setError(MENSAJE_ERROR_MOTOR);
     } finally {
       setCargando(false);
     }

@@ -6,9 +6,13 @@ import { preprocesarImagen } from '../utils/preprocesarImagen';
  *
  * Nota de arquitectura: Tesseract.js ejecuta el reconocimiento de texto
  * dentro del navegador (WASM), por lo que la imagen del comprobante NUNCA
- * se envía a ningún servidor. La única descarga externa es la de los
- * archivos estáticos del motor (wasm + datos de idioma "spa"), que el
- * navegador cachea después del primer uso.
+ * se envía a ningún servidor. El worker, el motor WASM y los datos del
+ * idioma "spa" se sirven desde /public/tesseract (mismo origen) en vez de
+ * la CDN pública de Tesseract.js (jsdelivr): si esa CDN está bloqueada o
+ * es lenta en la red del usuario, antes el análisis fallaba o se colgaba
+ * por completo. Servirlos localmente los hace confiables y rápidos
+ * (cacheados por el navegador tras la primera carga, sin depender de un
+ * tercero).
  *
  * Antes de reconocer, la imagen pasa por preprocesarImagen() (escalado +
  * escala de grises + binarización), lo que mejora sustancialmente la
@@ -24,6 +28,9 @@ import { preprocesarImagen } from '../utils/preprocesarImagen';
  */
 export async function reconocerTexto(imagen, onProgress) {
   const worker = await createWorker('spa', 1, {
+    workerPath: '/tesseract/worker.min.js',
+    corePath: '/tesseract/tesseract-core-lstm.wasm.js',
+    langPath: '/tesseract/lang-data',
     logger: (info) => {
       if (onProgress && info.status === 'recognizing text') {
         onProgress(Math.round(info.progress * 100));
